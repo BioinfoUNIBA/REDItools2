@@ -165,6 +165,7 @@ if __name__ == '__main__':
     size = comm.Get_size()
 
     options = reditools.parse_options()
+    # Until tabix can properly index the output, the header is disruptive.
     options["remove_header"] = True
     
     parser = argparse.ArgumentParser(description='REDItools 2.0')
@@ -566,7 +567,8 @@ if __name__ == '__main__':
             if little_file.endswith("groups.txt"): continue
             
             print(little_file)
-            pieces = re.sub("\..*", "", os.path.basename(little_file)).split("#")
+            # Strip the file ending and split by '#'
+            pieces = re.sub(r"\.[^\.]*$", "", os.path.basename(little_file)).split("#")
             pieces.insert(0, little_file)
             little_files.append(pieces)
 
